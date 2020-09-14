@@ -17,15 +17,20 @@ public class OrderReceipt {
 	public String printReceipt() {
 		StringBuilder output = new StringBuilder();
 
-		// print headers
-		output.append("======Printing Orders======\n");
+		String headers = "======Printing Orders======\n";
+		output.append(headers);
 
 		// print date, bill no, customer name
 //        output.append("Date - " + order.getDate();
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
 //        output.append(order.getCustomerLoyaltyNumber());
+		addLineItem(output);
 
+		return output.toString();
+	}
+
+	private void addLineItem(StringBuilder output) {
 		// prints lineItems
 		double totSalesTx = 0d;
 		double tot = 0d;
@@ -39,8 +44,8 @@ public class OrderReceipt {
 			output.append(lineItem.totalAmount());
 			output.append('\n');
 
-			// calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
+			final double taxRate = .10;
+            double salesTax = lineItem.totalAmount() * taxRate;
             totSalesTx += salesTax;
 
             // calculate total amount of lineItem = price * quantity + 10 % sales tax
@@ -50,8 +55,7 @@ public class OrderReceipt {
 		// prints the state tax
 		output.append("Sales Tax").append('\t').append(totSalesTx);
 
-        // print total amount
+		// print total amount
 		output.append("Total Amount").append('\t').append(tot);
-		return output.toString();
 	}
 }
